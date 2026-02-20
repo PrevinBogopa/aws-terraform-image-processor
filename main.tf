@@ -28,9 +28,9 @@ resource "aws_s3_bucket" "frontend_bucket" {
 }
 
 resource "aws_s3_bucket_website_configuration" "frontend_config" {
-bucket = aws_s3_bucket.frontend_bucket.id 
+  bucket = aws_s3_bucket.frontend_bucket.id
 
-index_document{
+  index_document {
     suffix = "index.html"
 }
 }
@@ -44,17 +44,17 @@ resource "aws_s3_bucket_public_access_block" "frontend_public" {
 }
 
 resource "aws_s3_bucket_policy" "frontend_policy" {
-    bucket = aws_s3_bucket.frontend_bucket.id
+  bucket = aws_s3_bucket.frontend_bucket.id
 
-    policy = jsonencode({
-        Version = "2012-10-17"
-        Statement = [{
-            Effect = "Allow"
-            Principal = "*"
-            Action = ["s3:GetObject"]
-            Resource= "${aws_s3_bucket.frontend_bucket.arn}/*"
-        }]
-    })
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = "*"
+      Action    = ["s3:GetObject"]
+      Resource  = "${aws_s3_bucket.frontend_bucket.arn}/*"
+    }]
+  })
 }
 
 # IAM ROLE
@@ -76,27 +76,24 @@ assume_role_policy = jsonencode({
 }
 
 resource "aws_iam_role_policy" "lambda_policy" {
-    name = "image_lambda_policy"
+  name = "image_lambda_policy"
 
-    role= aws_iam_role.lambda_role.id
+  role = aws_iam_role.lambda_role.id
 
-    policy =jsonencode({
-        Version = "2012-10-17"
-        Statement=[
-            {
-                Effect="Allow"
-                Action=[
-                    "s3:*"
-                ]
-                Resource = "*"
-            },
-            {
-                Effect = "Allow"
-                Action = [
-                    "logs:*"
-                ]
-                Resource = "*"
-            }
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "s3:*"
+        ]
+        Resource = "*"
+      },
+      {
+        Effect = "Allow"
+        Action = [
+          "logs:*"
         ]
     })
 }
