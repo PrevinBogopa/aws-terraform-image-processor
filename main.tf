@@ -97,3 +97,19 @@ resource "aws_iam_role_policy" "lambda_policy" {
     })
 }
 
+resource "aws_lambda_function" "image_lambda" {
+    function_name = "image-compressor-function"
+    role = aws_iam_role.lambda_role.arn
+    handler="lambda.lambda_handler"
+    runtime = "python3.10"
+
+    filename="lambda/lambda.zip"
+    source_code_hash = filebase64sha256("lambda/lambda.zip")
+
+    environment {
+        variables= {
+UPLOAD_BUCKET= aws_s3_bucket.upload_bucket.bucket
+COMPRESSED_BUCKET=aws_s3_bucket.compressed_bucket.bucket
+        }
+    }
+}
