@@ -113,3 +113,9 @@ COMPRESSED_BUCKET=aws_s3_bucket.compressed_bucket.bucket
         }
     }
 }
+
+
+resource "aws_lambda_function_url" "function_url" {
+    function_name = aws_lambda_function.image_lambda.function_name
+    authorization_type = "NONE"
+}
