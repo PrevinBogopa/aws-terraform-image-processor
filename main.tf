@@ -20,7 +20,6 @@ resource "aws_s3_bucket" "upload_bucket" {
 }
 
 resource "aws_s3_bucket" "compressed_bucket" {
-    bucket = "image-compressed-bucket-12345"
   bucket = "image-compressed-${random_id.suffix.hex}"
 }
 
