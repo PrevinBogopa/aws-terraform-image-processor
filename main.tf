@@ -8,19 +8,24 @@ terraform {
 }
 
 provider "aws" {
-    region = "us-east-1"
+  region = "us-east-1"
+}
+
+ resource "random_id" "suffix" {
+  byte_length = 4
 }
 
 resource "aws_s3_bucket" "upload_bucket" {
-    bucket = "image-upload-bucket-12345"
+  bucket = "image-upload-${random_id.suffix.hex}"
 }
 
 resource "aws_s3_bucket" "compressed_bucket" {
     bucket = "image-compressed-bucket-12345"
+  bucket = "image-compressed-${random_id.suffix.hex}"
 }
 
 resource "aws_s3_bucket" "frontend_bucket" {
-    bucket = "image-frontend-bucket-12345"
+  bucket = "image-frontend-${random_id.suffix.hex}"
 }
 
 resource "aws_s3_bucket_website_configuration" "frontend_config" {
