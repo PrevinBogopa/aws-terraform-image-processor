@@ -52,6 +52,7 @@ resource "aws_s3_bucket_policy" "frontend_policy" {
         }]
     })
 }
+
 # IAM ROLE
 
 resource "aws_iam_role" "lambda_role" {
@@ -69,3 +70,30 @@ assume_role_policy = jsonencode({
     }]
 })
 }
+
+resource "aws_iam_role_policy" "lambda_policy" {
+    name = "image_lambda_policy"
+
+    role= aws_iam_role.lambda_role.id
+
+    policy =jsonencode({
+        Version = "2012-10-17"
+        Statement=[
+            {
+                Effect="Allow"
+                Action=[
+                    "s3:*"
+                ]
+                Resource = "*"
+            },
+            {
+                Effect = "Allow"
+                Action = [
+                    "logs:*"
+                ]
+                Resource = "*"
+            }
+        ]
+    })
+}
+
