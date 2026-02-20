@@ -1,0 +1,15 @@
+# Ignore all Terraform plugin directories anywhere in the repo
+**/.terraform/
+
+# Ignore all Terraform state files anywhere
+**/*.tfstate
+**/*.tfstate.*
+
+# Logs and backups
+**/crash.log
+**/*.backup
+**/override.tf
+**/override.tf.json
+
+# Optional: ignore lock file if you don't want to commit it
+**/.terraform.lock.hcl
